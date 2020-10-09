@@ -1,11 +1,21 @@
 #include <Arduino.h>
-#include "SparkFun_BNO080_Arduino_Library.h" // Click here to get the library: http://librarymanager/All#SparkFun_BNO080
+#include "bno080/SparkFun_BNO080_Arduino_Library.h" // Click here to get the library: http://librarymanager/All#SparkFun_BNO080
+#include <Adafruit_ILI9341.h>
+
+#define TFT_CS 13
+#define TFT_DC 12
+#define TFT_RST 14
+
 BNO080 myIMU;
+Adafruit_ILI9341 tft = Adafruit_ILI9341(TFT_CS, TFT_DC);
+
 
 void setup() {
   Serial.begin(115200);
   Serial.println();
   Serial.println("BNO080 Read Example");
+  tft.begin();
+  tft.fillScreen(ILI9341_BLUE);
 
   Wire.begin();
 

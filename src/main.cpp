@@ -7,7 +7,8 @@
 #define TFT_RST 14
 
 BNO080 myIMU;
-Adafruit_ILI9341 tft = Adafruit_ILI9341(TFT_CS, TFT_DC);
+
+Adafruit_ILI9341 tft = Adafruit_ILI9341(TFT_CS, TFT_DC,TFT_RST);
 
 
 void setup() {

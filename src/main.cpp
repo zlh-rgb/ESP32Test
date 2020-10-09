@@ -29,36 +29,41 @@ void setup()
 
   Wire.begin();
 
-  myIMU.begin();
+  // myIMU.begin();
 
   ads.init(Ads_112c04::AxState::DGND, Ads_112c04::AxState::DGND);
   ads.configRegister0(Ads_112c04::Gain::GAIN_1);
-  ads.configRegister1(Ads_112c04::SpeedOfSample::SPS_1000,Ads_112c04::Mode::Mode_Normal,Ads_112c04::ConvMode::Continuous);
+  delay(100);
+  ads.configRegister1(Ads_112c04::SpeedOfSample::SPS_1000, Ads_112c04::Mode::Mode_Normal, Ads_112c04::ConvMode::Continuous);
   ads.startConv();
 
   Wire.setClock(400000); //Increase I2C data rate to 400kHz
 
-  myIMU.enableStepCounter(500); //Send data update every 500ms
-  myIMU.enableGyro(50);
+  // myIMU.enableStepCounter(500); //Send data update every 500ms
+  // myIMU.enableGyro(50);
 }
 
 void loop()
 {
-  Serial.println("hhh");
-  double adc=ads.readADC();
-  Serial.printf("adc:%f",adc);
-  
-  if (myIMU.dataAvailable() == true)
+  // ads.startConv();
+  if (!ads.getDrdyState())
   {
-    unsigned int steps = myIMU.getStepCount();
-    float X = myIMU.getGyroX();
-    
-    tft.setCursor(0, 0);
-    tft.setTextColor(ILI9341_WHITE);  tft.setTextSize(1);
-    sprintf(buffer,"steps:%d",steps);
-    tft.println(buffer);
-    sprintf(buffer,"X:%.2f",X);
-    tft.println(buffer);
+    double adc = ads.readADC();
+    Serial.printf("adc:%f", adc);
+    Serial.println();
   }
-  
+
+  // if (myIMU.dataAvailable() == true)
+  // {
+  //   unsigned int steps = myIMU.getStepCount();
+  //   float X = myIMU.getGyroX();
+
+  //   tft.setCursor(0, 0);
+  //   tft.setTextColor(ILI9341_WHITE);
+  //   tft.setTextSize(1);
+  //   sprintf(buffer, "steps:%d", steps);
+  //   tft.println(buffer);
+  //   sprintf(buffer, "X:%.2f", X);
+  //   tft.println(buffer);
+  // }
 }

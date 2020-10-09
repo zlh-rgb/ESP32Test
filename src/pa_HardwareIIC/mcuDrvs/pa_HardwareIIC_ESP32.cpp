@@ -28,6 +28,8 @@ extern "C"
         
         Wire.beginTransmission(addr);
         Wire.write(reg);
+        Wire.endTransmission();
+        Wire.requestFrom(addr,length);
         while (length)
         {
             length--;

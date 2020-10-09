@@ -29,16 +29,14 @@ void setup()
   // Serial.begin(115200);
   // Serial.println();
   // Serial.println("BNO080 Read Example");
-  pa_BNO055_init();
   
+
   tft.begin();
   tft.setRotation(2);
   tft.fillScreen(ILI9341_BLUE);
 
-
-
   Wire.begin();
-
+  pa_BNO055_init();
   //myIMU.begin();
 
   ads.init(Ads_112c04::AxState::DGND, Ads_112c04::AxState::DGND);

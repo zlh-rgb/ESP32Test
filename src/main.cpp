@@ -2,6 +2,11 @@
 #include "bno080/SparkFun_BNO080_Arduino_Library.h" // Click here to get the library: http://librarymanager/All#SparkFun_BNO080
 #include <Adafruit_ILI9341.h>
 #include "Ads_112c04/Ads_112c04.h"
+extern "C"
+{
+#include "bno055/bno055.h"
+}
+
 
 #define TFT_CS 13
 #define TFT_DC 12
@@ -10,6 +15,7 @@
 char buffer[20];
 
 BNO080 myIMU;
+bno055_vector_t myBNO055;
 
 Adafruit_ILI9341 tft = Adafruit_ILI9341(TFT_CS, TFT_DC, TFT_RST);
 Ads_112c04 &ads = Ads_112c04::instance;
@@ -23,13 +29,17 @@ void setup()
   // Serial.begin(115200);
   // Serial.println();
   // Serial.println("BNO080 Read Example");
+  pa_BNO055_init();
+  
   tft.begin();
   tft.setRotation(2);
   tft.fillScreen(ILI9341_BLUE);
 
+
+
   Wire.begin();
 
-  // myIMU.begin();
+  //myIMU.begin();
 
   ads.init(Ads_112c04::AxState::DGND, Ads_112c04::AxState::DGND);
   ads.configRegister0(Ads_112c04::Gain::GAIN_1);
@@ -52,7 +62,11 @@ void loop()
     Serial.printf("adc:%f", adc);
     Serial.println();
   }
-
+  myBNO055 = pa_BNO055_getVector();
+  tft.setCursor(0, 0);
+  tft.setTextColor(ILI9341_WHITE,ILI9341_BLACK);
+  tft.setTextSize(2);
+  tft.printf("X:%.2lf",myBNO055.x);
   // if (myIMU.dataAvailable() == true)
   // {
   //   unsigned int steps = myIMU.getStepCount();

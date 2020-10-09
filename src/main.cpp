@@ -12,16 +12,14 @@ char buffer[20];
 BNO080 myIMU;
 
 Adafruit_ILI9341 tft = Adafruit_ILI9341(TFT_CS, TFT_DC, TFT_RST);
-Ads_112c04 &ads;
+Ads_112c04 &ads = Ads_112c04::instance;
 
 void setup()
 {
-  ads = Ads_112c04::instance;
   Serial.begin(115200);
   Serial.println();
   Serial.println("BNO080 Read Example");
 
-void setup() {
   // Serial.begin(115200);
   // Serial.println();
   // Serial.println("BNO080 Read Example");
@@ -35,7 +33,7 @@ void setup() {
 
   ads.init(Ads_112c04::AxState::DGND, Ads_112c04::AxState::DGND);
   ads.configRegister0(Ads_112c04::Gain::GAIN_1);
-  ads.configRegister1(Ads_112c04::SpeedOfSample::SPS_1000,Ads_112c04::Mode::Mode_Normal,Ads_112c04::ConvMode);
+  ads.configRegister1(Ads_112c04::SpeedOfSample::SPS_1000,Ads_112c04::Mode::Mode_Normal,Ads_112c04::ConvMode::Continuous);
   ads.startConv();
 
   Wire.setClock(400000); //Increase I2C data rate to 400kHz
@@ -48,7 +46,7 @@ void loop()
 {
   Serial.println("hhh");
   double adc=ads.readADC();
-  Serial.println("adc:"+adc);
+  Serial.printf("adc:%f",adc);
   
   if (myIMU.dataAvailable() == true)
   {

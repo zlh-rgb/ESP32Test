@@ -1,7 +1,10 @@
 
 #ifndef __Ads_112c04_H__
 #define __Ads_112c04_H__
-#include "pa_HardwareIIC/pa_HardwareIIC.h"
+extern "C"{
+	#include "pa_HardwareIIC/pa_HardwareIIC.h"
+}
+
 class Ads_112c04
 {
 public:
